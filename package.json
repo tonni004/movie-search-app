@@ -1,8 +1,8 @@
 {
-  "name": "movie-search-app",
+  "name": "movies-search-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tonni004.github.io/movie-search-app/",
+  "homepage": "https://tonni004.github.io/movies-search-app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
