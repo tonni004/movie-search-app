@@ -1,0 +1,27 @@
+.MoviesList {
+    display: grid;
+    max-width: calc(100vw - 48px);
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-gap: 1rem;
+    margin-top: 30px;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.MovieCard {
+    transition: transform 300ms ease;
+    transform: scale(1);
+    z-index: 8;
+    cursor: pointer;
+
+&:hover,
+&:focus {
+    transform: scale(1.1);
+}
+}
+
+
+

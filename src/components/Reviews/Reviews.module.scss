@@ -1,0 +1,40 @@
+.ReviewsSection {
+    padding-right: 40px;
+    padding-left: 15px;
+    padding-bottom: 20px;
+}
+.ReviewCard {
+    display: flex;
+    padding-top: 20px;
+
+    // position: relative;
+}
+
+.ReviewImgField {
+    position: relative;
+    margin-right: 30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}
+
+.ReviewImg {
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center;
+}
+
+// .ReviewsField{
+//     // position: relative;
+// }
+.ReviewTitle {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.ReviewText {
+    margin-bottom: 0;
+}
+
