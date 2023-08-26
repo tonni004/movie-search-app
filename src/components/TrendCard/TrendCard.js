@@ -9,15 +9,15 @@ const TrendCard = ({ title, url, overview, release_date, vote_average }) => {
     return (
         <div className="card mb-3 bg-dark bg-gradient text-white bg-opacity-75" >
             <div className="row g-0">
-                <div className="col-md-4">
-                    <img src={`https://image.tmdb.org/t/p/w300/${url}`} className="img-fluid rounded-start pt-3 pb-3 ps-3" alt={title} width="250" />
+                <div className="col-md-3">
+                    <img src={`https://image.tmdb.org/t/p/w300/${url}`} className="img-fluid rounded-start pt-3 pb-3 ps-3 pe-4" alt={title} width="250" />
                 </div>
-                <div className="col-md-8">
+                <div className="col-md-8 mb-3">
                     <div className="card-body">
-                        <h5 className="card-title">{title}</h5>
-                        <p className="card-text text-warning">Rating: {rating()}</p>
+                        <h3 className="card-title mt-2 mb-2">{title}</h3>
+                        <p className="card-text text-warning mb-4">Rating: {rating()}</p>
                         <p className="card-text">{overview}</p>
-                        <p className="card-text"><small className="text-wgite">Release date: {release_date}</small></p>
+                        <p className="card-text"><small className="text-wgite">Release date: <span className="ms-1">{release_date}</span></small></p>
                     </div>
                 </div>
             </div>

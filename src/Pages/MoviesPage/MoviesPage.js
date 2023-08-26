@@ -1,5 +1,8 @@
-import { Component } from "react";
-import { fetchMovies } from "../../services/api";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import { searchMovies } from "redux/movies-operations";
+import { allSearchMovies } from '../../redux/movies-selectors';
 import styles from './MoviesView.module.scss'
 
 // components
@@ -7,67 +10,81 @@ import SearchForm from "components/SearchForm";
 import MoviesList from "components/MoviesList";
 import BackButton from "components/BackButton/BackButton";
 
-class MoviesView extends Component {
-    state = {
-        value: '',
-        movies: [],
-        currentPage: 1,
-    }
+export default function MoviesView() {
+    const dispatch = useDispatch();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState('');
+    const movies = useSelector(allSearchMovies);
 
-    componentDidUpdate(prevProps, prevState) {
-        const { value } = this.state;
-        if (prevState.value !== value) {
-            this.fetchMovies();
+    const onFetchMovies = useCallback((searchValue) => {
+        setCurrentPage(1);
+
+        setSearchQuery(searchValue);
+
+        const search = {
+            query: searchValue,
+            page: 1,
         }
 
-    }
+        dispatch(searchMovies(search, false))
+    }, [dispatch])
 
-    onFormSubmit = (value) => {
-        this.setState({
-            value: value,
-            currentPage: 1,
-            movies: [],
-        })
-    }
+    const onLoadMoreClick = useCallback(() => {
+        const nextPage = currentPage + 1;
+        setCurrentPage(nextPage);
 
-    fetchMovies = async () => {
-        const { value } = this.state;
-
-        try {
-            const results = await fetchMovies(value).then(response => response.data.results);
-
-            this.setState(prevState => ({
-                movies: [...prevState.movies, ...results],
-            }))
-
-        } catch (error) {
-            console.log('Error');
+        const search = {
+            query: searchQuery,
+            page: nextPage,
         }
-    }
+
+        dispatch(searchMovies(search, true))
+    }, [dispatch, currentPage, searchQuery]);
 
 
-    render() {
-        const { movies } = this.state;
-        const { history } = this.props;
-        return (
+    return (
 
-            <div className={styles.BodyPage} >
+        <div className={styles.BodyPage} >
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                className="container">
+                <SearchForm onSubmit={onFetchMovies} />
 
-                <div className="container">
-                    <SearchForm onSubmit={this.onFormSubmit} />
+                <div className={styles.BackBtnDiv}><BackButton /></div>
 
-                    <div className={styles.BackBtnDiv}><BackButton history={history} /></div>
+                <MoviesList />
+                {movies.length > 19 &&
+                    <div className={styles.LoadMoreField}>
+                        <button type='button' className={styles.LoadMoreBtn} onClick={onLoadMoreClick}>Load more</button>
+                    </div>
+                }
 
-                    <MoviesList movies={movies} />
-                    {movies.length === 0 && (
-                        <p className="text-center mt-3 fw-medium">Movies not found.</p>
-                    )}
-                </div>
+                {movies.length === 0 && (
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0 },
+                            visible: { opacity: 1, transition: { duration: 1 } },
+                        }}
+                        className={styles.MoviesNotFoundField}>
+                        <div className={styles.TextField}>
+                            <div className={styles.SmallText}>
+                                <span >Movies</span>
+                                <span>found</span>
+                            </div>
 
-            </div>
+                            <span className={styles.NoText}>not</span>
 
-        )
-    }
+
+                        </div>
+
+                    </motion.div>
+                )
+                }
+            </motion.div >
+
+        </div >
+
+    )
 }
-
-export default MoviesView;

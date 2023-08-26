@@ -1,32 +1,32 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Navbar, NavbarContent, NavbarItem, Link } from "@nextui-org/react";
 
 const Navigation = () => {
     return (
 
-        <div className="bg-black bg-opacity-75">
-            <ul className="nav d-flex justify-content-center nav-underline container p-2">
-                <li className="nav-item">
-                    <NavLink to="/"
+        <Navbar className="bg-black bg-opacity-75">
+            <NavbarContent className="nav d-flex justify-content-center nav-underline container p-3">
+                <NavbarItem className="nav-item me-3">
+                    <Link href="/movie-search-app"
+                        underline="hover"
                         className="nav-link link-body-emphasis text-light"
-                        activeclassname="active"
-                    >Home</NavLink>
-                </li>
+                    >Home</Link>
+                </NavbarItem>
 
-                <li className="nav-item">
-                    <NavLink to="/movies"
+                <NavbarItem className="nav-item me-3">
+                    <Link href="/movie-search-app/movies"
+                        underline="hover"
                         className="nav-link link-body-emphasis text-light"
-                        activeclassname="active"
-                    >Movies</NavLink>
-                </li>
-                <li className="nav-item">
-                    <NavLink to="/trends"
+                    >Movies</Link>
+                </NavbarItem>
+                <NavbarItem className="nav-item">
+                    <Link href="/movie-search-app/trends"
+                        underline="hover"
                         className="nav-link link-body-emphasis text-light"
-                        activeclassname="active"
-                    >Trends</NavLink>
-                </li>
-            </ul>
-        </div>
+                    >Trends</Link>
+                </NavbarItem>
+            </NavbarContent>
+        </Navbar>
 
     )
 }

@@ -1,14 +1,22 @@
 .ReviewsSection {
-    padding-right: 40px;
-    padding-left: 15px;
-    padding-bottom: 20px;
+    padding-right: 35px;
+    padding-left: 45px;
+    padding-bottom: 60px;
 }
+
+.NoReviewsField {
+    padding-top: 40px;
+    padding-bottom: 60px;
+    text-align: center;
+
+}
+
 .ReviewCard {
     display: flex;
     padding-top: 20px;
 
-    // position: relative;
 }
+
 
 .ReviewImgField {
     position: relative;

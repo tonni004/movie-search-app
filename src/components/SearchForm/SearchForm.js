@@ -1,55 +1,46 @@
-import { Component } from "react";
+import { useCallback, useState } from "react";
 import styles from './SearchForm.module.scss';
 
-class SearchForm extends Component {
-    state = {
-        value: '',
-    }
+export default function SearchForm({ onSubmit }) {
+    const [value, setValue] = useState('');
 
-    handleChange = e => {
+    const handleChange = useCallback((e) => {
         const searchValue = e.currentTarget.value;
-        this.setState({
-            value: searchValue,
-        })
-    }
+        setValue(searchValue);
+    }, [])
 
-    handleSubmit = (e) => {
+
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
-        this.props.onSubmit(this.state.value);
-        this.reset();
+        onSubmit(value);
+        reset();
 
+    }, [onSubmit, value]);
+
+    const reset = () => {
+        setValue('')
     }
 
-    reset = () => {
-        this.setState({
-            value: '',
-        })
-    }
+    return (
+        <div className={styles.SearchForm}>
 
-    render() {
-        return (
-
-
-            <div className={styles.SearchForm}>
-
-                <form onSubmit={this.handleSubmit} role="search">
-                    <label htmlFor="search">Search </label>
-                    <input id="search"
-                        type="search"
-                        placeholder="Search..."
-                        aria-label="Search"
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        required />
-                    <button type="submit" className={styles.SearchBtn}>Go!</button>
-                </form>
-            </div>
+            <form onSubmit={handleSubmit} role="search">
+                <label htmlFor="search">Search </label>
+                <input
+                    className={styles.SearchInput}
+                    id="search"
+                    type="search"
+                    placeholder="Search..."
+                    aria-label="Search"
+                    value={value}
+                    onChange={handleChange}
+                    required />
+                <button type="submit" className={styles.SearchBtn}>Go!</button>
+            </form>
+        </div>
 
 
 
-        )
-    }
+    )
 }
 
-
-export default SearchForm;

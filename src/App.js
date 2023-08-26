@@ -1,39 +1,67 @@
-import { Suspense, lazy, Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { useRoutes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
 // components
 import Navigation from "components/Navigation";
-import Spinner from './components/Spinner/Spinner';
+import SpinnerCircle from './components/Spinner/Spinner';
 
 const Home = lazy(() => import('./Pages/HomePage'));
 const Movies = lazy(() => import('./Pages/MoviesPage/MoviesPage'));
 const Film = lazy(() => import('./Pages/FilmPage/FilmPage'));
 const Trends = lazy(() => import('./Pages/TrendsPage/TrendsPage'));
 const NotFound = lazy(() => import('./Pages/NotFoundPage/NotFoundPage'));
+const Cast = lazy(() => import('./components/Cast'));
+const Reviews = lazy(() => import('./components/Reviews/Reviews'));
 
-class App extends Component {
-  render() {
+export default function App() {
+  const location = useLocation();
+  const element = useRoutes([
+    {
+      path: "movie-search-app",
+      element: <Home />,
+    },
+    {
+      path: 'movie-search-app/movies',
+      element: <Movies />,
+    },
+    {
+      path: "movie-search-app/movies/:moviesId/*",
+      element: <Film />,
+      children: [
+        {
+          path: "cast",
+          element: < Cast />,
+        },
+        {
+          path: "reviews",
+          element: < Reviews />,
+        },
+      ],
+    },
+    {
+      path: "movie-search-app/trends",
+      element: <Trends />
+    },
+    {
+      path: "*",
+      element: <NotFound />
+    }
 
-    return (
-      <>
-        <Navigation />
+  ])
 
+  return (
+    <>
+      <Navigation />
+      <Suspense fallback={<SpinnerCircle />}>
+        <AnimatePresence>
 
-        <Suspense fallback={
-          <Spinner />
-        }>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/movies" component={Movies} />
-            <Route path="/movies/:moviesId" component={Film} />
-            <Route path="/trends" component={Trends} />
-            <Route component={NotFound} />
-          </Switch>
-        </Suspense>
-      </>
-    );
-  }
-}
-;
+          {React.cloneElement(element, { key: location.pathname })}
+        </AnimatePresence>
 
-export default App;
+      </Suspense>
+
+    </>
+  );
+};
+

@@ -13,22 +13,23 @@ axios.defaults.params = {
     api_key: API_KEY,
 };
 
-export const fetchMovies = (value) => {
-    return axios.get(`/search/movie`, { params: { query: value } });
+export const fetchMovies = ({ query, page = 1 }) => {
+    return axios.get(`/search/movie`, { params: { query: query, page: page } }).then(response => response.data.results);
 }
 
 export const fetchMovieDetail = (id) => {
-    return axios.get(`/movie/${id}`);
+    return axios.get(`/movie/${id}`).then(response => response.data);
 }
 
 export const fetchTrends = () => {
-    return axios.get('/trending/movie/week')
+    return axios.get('/trending/movie/week').then(response => response.data.results);
 }
 
-export const castSearch = (id) => {
-    return axios.get(`/movie/${id}/credits`)
+export const fetchCast = (id) => {
+    return axios.get(`/movie/${id}/credits`).then(response => response.data.cast);
+
 }
 
-export const reviewsSearch = (id) => {
-    return axios.get(`/movie/${id}/reviews`)
+export const fetchReviews = (id) => {
+    return axios.get(`/movie/${id}/reviews`).then(response => response.data.results);
 }

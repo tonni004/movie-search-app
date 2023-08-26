@@ -1,42 +1,48 @@
-import React, { Component } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import styles from './HomePage.module.scss';
 
 
-class HomeView extends Component {
+export default function HomeView() {
+    const navigate = useNavigate();
 
-    onFormSubmit = () => {
-        this.props.history.push('/movies');
+    const onFormSubmit = () => {
+        return navigate("/movie-search-app/movies");
     }
+    const visible = { opacity: 1, x: 0, transition: { duration: 0.8 } };
 
+    return (
+        <>
+            <motion.div
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0, transition: { duration: 1 } }}
+                className={styles.Overlay}>
 
-    render() {
+                <div className="container">
+                    <motion.div
+                        variants={{
+                            hidden: { opacity: 0, x: 130 },
+                            visible
+                        }}>
+                        <h1
+                            className={styles.HomeTitle} >Find what to watch </h1>
+                        <p className={styles.HomeTitleSpan}>...in seconds</p>
+                    </motion.div>
 
-        return (
-            <>
-                <div className={styles.Overlay}>
+                    <div className={styles.HomeViewComponent}>
 
-                    <div className="container">
-
-                        <h1 className={styles.HomeTitle} >Find what to watch in seconds</h1>
-                        <div className={styles.HomeViewComponent}>
-
-                            {/* <SearchForm onSubmit={this.onFormSubmit} /> */}
-
-                            <button type="button" className={styles['glow-on-hover']} onClick={this.onFormSubmit}>
-
-                                GO!
-
-                            </button>
-
-                        </div>
+                        <button type="button" className={styles['glow-on-hover']} onClick={onFormSubmit}>
+                            GO!
+                        </button>
 
                     </div>
+
                 </div>
+            </motion.div>
 
-            </>
+        </>
 
-        )
-    }
+    )
 }
-
-export default HomeView;

@@ -1,42 +1,30 @@
 
-import { Component } from "react";
-import { fetchTrends } from "services/api";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { motion } from "framer-motion";
+import { currentTrends } from "redux/movies-operations";
 import TrendsList from '../../components/TrendsList/TrendsList';
 import BackButton from '../../components/BackButton/BackButton';
 import styles from './TrandsPage.module.scss'
 
-class TrendsPage extends Component {
-    state = {
-        trends: [],
-    }
+export default function TrendsPage() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(currentTrends())
+    }, [dispatch])
 
-    componentDidMount() {
-        this.fetchTrends();
-    }
 
-    fetchTrends = async () => {
-        try {
-            const trends = await fetchTrends().then(res => res.data.results);
-            this.setState({
-                trends: [...trends],
-            })
-        } catch {
-            console.log('error');
-        }
-
-    }
-    render() {
-        const trends = this.state.trends;
-        const { history } = this.props;
-        return (
-            <div className="container">
-                <div className={styles.BackBtnDiv}>
-                    <BackButton history={history} />
-                </div>
-                <TrendsList trends={trends} />/
+    return (
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            className="container">
+            <div className={styles.BackBtnDiv}>
+                <BackButton />
             </div>
-        )
-    }
+            <TrendsList />/
+        </motion.div>
+    )
 }
 
-export default TrendsPage;
