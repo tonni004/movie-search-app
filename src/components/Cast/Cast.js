@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { filmCast } from "redux/movies-selectors";
 import styles from './Cast.module.scss'
+import CastCard from "components/CastCard/CastCard";
 
 export default function Cast() {
     const dispatch = useDispatch();
@@ -24,16 +25,7 @@ export default function Cast() {
                 {cast.map(({ id, name, character, profile_path }) => (
                     <li key={id} className={styles.Card} >
 
-                        <div className="me-3">
-                            <img src={`https://image.tmdb.org/t/p/w300/${profile_path}`} alt={name} width="80" />
-                        </div>
-
-                        <div className="card-body ">
-                            <h5 className="card-title mb-2 mt-2 fs-6">{name}</h5>
-                            <p className="card-text text-secondary">{character}</p>
-                        </div>
-
-
+                        <CastCard name={name} character={character} profile_path={profile_path} />
                     </li>
                 ))}
             </motion.ul>
